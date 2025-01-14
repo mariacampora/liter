@@ -3,14 +3,14 @@ package com.library.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.library.model.Book;
+import com.library.entity.BookEntity;
 import com.library.model.Author;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
+import java.util.Collections;
 
 @Service
 public class BookApiService {
@@ -18,8 +18,6 @@ public class BookApiService {
     private final LibraryPersistenceService persistenceService;
     private final String baseUrl = "https://gutendex.com";
     private final ObjectMapper objectMapper;
-    private final List<Book> bookCache = new ArrayList<>();
-    private final Set<Author> authorCache = new HashSet<>();
 
     public BookApiService(HttpClientService httpClient, LibraryPersistenceService persistenceService) {
         this.httpClient = httpClient;
@@ -36,9 +34,7 @@ public class BookApiService {
 
         if (results.size() > 0) {
             Book book = objectMapper.treeToValue(results.get(0), Book.class);
-            bookCache.add(book);
             if (!book.getAuthors().isEmpty()) {
-                authorCache.add(book.getAuthors().get(0));
                 persistenceService.saveBook(book);
             }
             return book;
@@ -48,17 +44,35 @@ public class BookApiService {
     }
 
     public List<Book> getAllBooks() {
-        return new ArrayList<>(bookCache);
+        return persistenceService.findAllBooks().stream()
+                .map(this::convertToBookModel)
+                .collect(Collectors.toList());
+    }
+
+    private Book convertToBookModel(BookEntity entity) {
+        Book book = new Book();
+        book.setId(entity.getGutendexId());
+        book.setTitle(entity.getTitle());
+        book.setLanguage(entity.getLanguage());
+        book.setDownloadCount(entity.getDownloadCount());
+
+        Author author = new Author();
+        author.setName(entity.getAuthor().getName());
+        author.setBirthYear(entity.getAuthor().getBirthYear());
+        author.setDeathYear(entity.getAuthor().getDeathYear());
+
+        book.setAuthors(Collections.singletonList(author));
+        return book;
     }
 
     public List<Book> getBooksByLanguage(String language) {
-        return bookCache.stream()
-                .filter(book -> language.equalsIgnoreCase(book.getLanguage()))
-                .toList();
+        return persistenceService.findBooksByLanguage(language).stream()
+                .map(this::convertToBookModel)
+                .collect(Collectors.toList());
     }
 
     public List<Author> getAllAuthors() {
-        return new ArrayList<>(authorCache);
+        return persistenceService.findAllAuthors();
     }
 
     public List<Author> getAuthorsAliveInYear(int year) {

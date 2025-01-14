@@ -27,4 +27,7 @@ public interface AuthorRepository extends JpaRepository<AuthorEntity, Long> {
     @Query("SELECT a FROM AuthorEntity a WHERE " +
            "a.deathYear IS NULL")
     List<AuthorEntity> findLivingAuthors();
+
+    @Query("SELECT DISTINCT a FROM AuthorEntity a LEFT JOIN FETCH a.books")
+    List<AuthorEntity> findAllWithBooks();
 }

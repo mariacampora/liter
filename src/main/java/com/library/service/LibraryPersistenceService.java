@@ -54,6 +54,7 @@ public class LibraryPersistenceService {
         bookRepository.save(bookEntity);
     }
 
+    @Transactional(readOnly = true)
     public List<Author> findAuthorsAliveInYear(int year) {
         if (year < 0 || year > 9999) {
             throw new IllegalArgumentException("El año debe estar entre 0 y 9999");
@@ -71,5 +72,22 @@ public class LibraryPersistenceService {
         author.setBirthYear(entity.getBirthYear());
         author.setDeathYear(entity.getDeathYear());
         return author;
+    }
+
+    @Transactional(readOnly = true)
+    public List<BookEntity> findAllBooks() {
+        return bookRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<BookEntity> findBooksByLanguage(String language) {
+        return bookRepository.findByLanguage(language);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Author> findAllAuthors() {
+        return authorRepository.findAll().stream()
+                .map(this::convertToAuthorModel)
+                .collect(Collectors.toList());
     }
 }

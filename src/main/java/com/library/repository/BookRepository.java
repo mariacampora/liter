@@ -11,6 +11,7 @@ import java.util.Map;
 public interface BookRepository extends JpaRepository<BookEntity, Long> {
     Optional<BookEntity> findByGutendexId(Integer gutendexId);
     List<BookEntity> findByLanguage(String language);
+    Optional<BookEntity> findByTitle(String title);
 
     @Query("SELECT b FROM BookEntity b ORDER BY b.downloadCount DESC LIMIT 10")
     List<BookEntity> findTop10ByOrderByDownloadCountDesc();
@@ -24,4 +25,7 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
 
     @Query("SELECT COUNT(b) FROM BookEntity b WHERE b.language = :language")
     long countByLanguage(@Param("language") String language);
+
+    @Query("SELECT b FROM BookEntity b")
+    List<BookEntity> findAllBooks();
 }
