@@ -13,7 +13,7 @@ public class HttpClientService {
 
     public HttpClientService() {
         this.client = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(10))
+                .connectTimeout(Duration.ofSeconds(30))
                 .build();
     }
 

@@ -29,7 +29,7 @@ public class BookApiService {
 
     public Book searchBookByTitle(String title) throws Exception {
         String encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8);
-        String jsonResponse = httpClient.get(baseUrl + "/books?search=" + encodedTitle);
+        String jsonResponse = httpClient.get(baseUrl + "/books/?search=" + encodedTitle);
 
         JsonNode root = objectMapper.readTree(jsonResponse);
         JsonNode results = root.get("results");
