@@ -12,7 +12,7 @@ public class BookEntity {
     @Column(nullable = false)
     private String title;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id", nullable = false)
     private AuthorEntity author;
 
