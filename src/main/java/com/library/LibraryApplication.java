@@ -34,7 +34,7 @@ public class LibraryApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        System.out.println("\n¡Bienvenido a la Biblioteca Gutenberg! [*]");
+        System.out.println("\n¡Bienvenido a Literalura!");
 
         boolean continuar = true;
         while (continuar) {
@@ -90,12 +90,12 @@ public class LibraryApplication implements CommandLineRunner {
             }
         }
 
-        System.out.println("\n¡Gracias por usar la biblioteca! [*]");
+        System.out.println("\n¡Gracias por usar Literalura! [*]");
         scanner.close();
     }
 
     private void mostrarMenu() {
-        System.out.println("\n=== [*] BIBLIOTECA GUTENBERG ===");
+        System.out.println("\n*** MENÚ PRINCIPAL ***");
         System.out.println("1. Buscar libro por título");
         System.out.println("2. Listar todos los libros");
         System.out.println("3. Buscar libros por idioma");

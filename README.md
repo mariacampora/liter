@@ -10,6 +10,24 @@ El objetivo principal de **LiterAlura** es desarrollar un Catálogo de Libros in
 - Almacenar la información obtenida en una base de datos.  
 - Opciones de interacción textual en la consola.  
 
+## Capturas de Pantalla 📸  
+#### Menú del proyecto
+
+![Menú del proyecto](image.png)
+
+#### Listado de libros
+
+ ![alt text](image-1.png)
+
+#### Top de libros
+
+ ![alt text](image-2.png)
+
+#### Estadísticas
+
+![alt text](image-3.png)
+
+
 ### Características 🛠️  
 - Solicitudes a una API de libros para obtener datos actualizados.  
 - Almacenamiento de datos en una base de datos PostgreSQL.  
